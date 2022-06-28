@@ -1,6 +1,9 @@
-﻿using System.Diagnostics;
+﻿using LINELoginOIDCImplementationDemo.Models;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using LINELoginOIDCImplementationDemo.Models;
+using System.Diagnostics;
 
 namespace LINELoginOIDCImplementationDemo.Controllers;
 
@@ -21,6 +24,13 @@ public class HomeController : Controller
     public IActionResult Privacy()
     {
         return View();
+    }
+
+    [AllowAnonymous]
+    public async Task<IActionResult> Logout()
+    {
+        await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+        return RedirectToAction(nameof(Index));
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
