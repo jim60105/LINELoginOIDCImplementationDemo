@@ -10,4 +10,5 @@ services:
     #   # Fill them in.
     #   - OpenIDConnect__ClientId=YOURCLIENTID
     #   - OpenIDConnect__ClientSecret=YOURCLIENTSECRET
+    #   - OpenIDConnect__RedirectUri=https://your.domain.com/signin-oidc
 

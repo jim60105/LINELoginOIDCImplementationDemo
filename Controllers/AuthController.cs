@@ -20,14 +20,14 @@ public class AuthController : Controller
 
     public IActionResult Login()
     {
-        _auth.SetupRedirectUri(Request);
+        //_auth.SetupRedirectUri(Request);
 
         return Redirect(_auth.AuthorizeUrl);
     }
 
     public async Task<IActionResult> SigninOIDCAsync(SigninOIDCResponse signin)
     {
-        _auth.SetupRedirectUri(Request);
+        //_auth.SetupRedirectUri(Request);
 
         if (signin.state != _auth.State)
         {
@@ -46,25 +46,14 @@ public class AuthController : Controller
 
         ITokenResponse token = await _auth.GetTokenAsync(code);
         IVerifyResponse verify = await _auth.VerifyTokenAsync(token);
-        ClaimsIdentity claimsIdentity = Authentication.MakeClaimsIdentity(verify);
 
-        AuthenticationProperties authProp = new()
-        {
-            IsPersistent = true,
-            ExpiresUtc = DateTimeOffset.FromUnixTimeSeconds(verify.exp),
-            IssuedUtc = DateTimeOffset.FromUnixTimeSeconds(verify.iat),
-        };
-        authProp.Items.Add(".Token.access_token", token.access_token);
-        authProp.Items.Add(".Token.id_token", token.id_token);
-        authProp.Items.Add(".Token.refresh_token", token.refresh_token);
-        authProp.Items.Add(".Token.token_type", token.token_type);
-        authProp.Items.Add(".Token.expires_at", DateTime.UtcNow.AddSeconds(token.expires_in).ToString("u"));
-        authProp.Items.Add(".TokenNames", "access_token;id_token;refresh_token;token_type;expires_at");
+        ClaimsIdentity claimsIdentity = Authentication.MakeClaimsIdentity(verify);
+        AuthenticationProperties authenticationProperties = Authentication.MakeAuthenticationProperties(token,verify);
 
         await HttpContext.SignInAsync(
             CookieAuthenticationDefaults.AuthenticationScheme,
             new ClaimsPrincipal(claimsIdentity),
-            authProp
+            authenticationProperties
         );
 
         return RedirectToAction("Index", "Home");
