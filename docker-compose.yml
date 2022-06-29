@@ -1,0 +1,13 @@
+version: '3.7'
+
+services:
+  lineloginoidcimplementationdemo:
+    #image: ${DOCKER_REGISTRY-}lineloginoidcimplementationdemo
+    build: .
+    ports:
+      - "9000:80"
+    # environment:
+    #   # Fill them in.
+    #   - OpenIDConnect__ClientId=YOURCLIENTID
+    #   - OpenIDConnect__ClientSecret=YOURCLIENTSECRET
+
