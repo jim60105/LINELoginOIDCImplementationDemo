@@ -37,7 +37,7 @@ public class Authentication
                 { "response_type", "code" },
                 { "client_id", _config["OpenIDConnect:ClientId"] },
                 { "redirect_uri", _redirectUri },
-                { "scope", "openid profile" },
+                { "scope", "openid profile email" },
                 { "state", State }
             };
 
@@ -131,6 +131,9 @@ public class Authentication
 
         if (!string.IsNullOrEmpty(verify.picture))
             claims.Add(new Claim("picture", verify.picture));
+
+        if (!string.IsNullOrEmpty(verify.email))
+            claims.Add(new Claim(ClaimTypes.Email, verify.email));
 
         if (null != verify.amr && verify.amr.Count > 0)
         {

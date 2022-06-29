@@ -52,7 +52,7 @@
 
 ## 部署指引
 
-- 修改 `docker-compose.yml` ，在 environment 填入 ClientId、ClientSecret
+- 修改 `docker-compose.yml` ，在 environment 填入 ClientId、ClientSecret、RedirectUri
 - `docker-compose up -d` 後會在 **9000** port 聽 **http** request
 - 請放在 ReverseProxy 後面，接 https 轉後送 http
 - 在  [LINE Developer Console](https://developers.line.biz/console) -「Callback URL」填入 `https://你的對外網域/signin-oidc` ，例如我的是 `https://oidcimplementationdemo.maki0419.com/signin-oidc`
